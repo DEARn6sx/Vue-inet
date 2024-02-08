@@ -1,5 +1,7 @@
 <template >
   <div ref="fullPageDiv" :style="{ backgroundColor: '#2b2b29' }">
+    <v-col class="mb-5" cols="12">
+  
     <div class="self-presentation" style="background-color: #c4c4c2">
     <div class="image-container">    
     <div class="image-container">
@@ -37,6 +39,8 @@
     </button>
     </div>
   </div>
+
+  </v-col>
  </div> 
 </template>
 
