@@ -3,7 +3,7 @@
     <h1>Yooo!! และนี่คือเสียงของเด็กวัด</h1>
     <imgset />
   </div>
-  
+
 </template>
 
 <script>
