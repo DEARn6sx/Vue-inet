@@ -2,9 +2,11 @@
   <div ref="fullPageDiv" :style="{ backgroundColor: '#2b2b29' }">
     <div class="self-presentation" style="background-color: #c4c4c2">
     <div class="image-container">    
-    <v-card  >
-        <v-img src="../assets/profile.png" />        
-    </v-card>
+    <div class="image-container">
+        <v-card>
+          <v-img :src="profileImageUrl" />
+        </v-card>
+      </div>
     </div>
     <div class="text-container" >
       <h1 >{{ name }}</h1>
@@ -15,9 +17,9 @@
       <p><b>จุดแข็ง : </b>{{ strength }}</p>
       <p><b>จุดอ่อน : </b>{{ weakness }}</p>
       <ul v-if="links.length">
-        <li v-for="(link, index) in links" :key="index">
-          <a :href="link.url" :target="link.target" :title="link.title"><b>{{ link.text }}</b></a>
-        </li>
+          <li v-for="(link, index) in links" :key="index">
+            <a :href="link.url" :target="link.target" :title="link.title"><v-img :src="link.imageUrl" :width="30"  /></a>
+          </li>
       </ul>
     </div>
   </div>
@@ -25,6 +27,8 @@
 </template>
 
 <script>
+import IG_icon from '@/assets/Instagram_icon.png';
+import fb_icon from '@/assets/facebook.png';
 export default {
     data() {
     return {
@@ -35,15 +39,19 @@ export default {
       favsportteam: 'Aurora (Dota)...กำลังจะตกรอบแล้ว',
       strength: 'อยู่ง่ายกินง่าย',
       weakness: 'ขี้ลืม',
+      profileImageUrl: require('@/assets/profile.png'),
       links: [
         {
-          text: 'FaceBook', // Link text
-          url: 'https://www.facebook.com/dear207rw', // Link URL
-          target: '_blank', // Optional link target (e.g., '_blank' for new tab)
-          title: 'Visit my website', // Optional link title
+          imageUrl: fb_icon, // Change this line to use the image URL from your folder
+          url: 'https://www.facebook.com/dear207rw',
+          target: '_blank',
+          title: 'Visit my website',
         },
         {
-          // Add more links as needed
+          imageUrl: IG_icon, // Change this line to use the image URL from your folder
+          url: 'https://www.instagram.com/dears.n?fbclid=IwAR1D1L_x2jt1L09S-RN1bouaYF4IN5jKDw7gnBC9OlbAnsw0b_nVdxwi8o8',
+          target: '_blank',
+          title: 'Visit my website',
         },
       ],
     };
