@@ -9,18 +9,32 @@
       </div>
     </div>
     <div class="text-container" >
-      <h1 >{{ name }}</h1>
-      <p ><b>จบจาก : </b>{{ description }}</p>
-      <p><b>งานอดิเรกที่ชอบ : </b>{{ hobby }}</p>
-      <p><b>สิ่งที่ไม่ชอบ : </b>{{ disklike }}</p>
-      <p><b>ทีมกีฬาที่ชอบ : </b>{{ favsportteam }}</p>
-      <p><b>จุดแข็ง : </b>{{ strength }}</p>
-      <p><b>จุดอ่อน : </b>{{ weakness }}</p>
+        <div v-if="!isEditMode">
+            <h1>{{ name }}</h1>
+            <p ><b>จบจาก : </b>{{ description }}</p>
+            <p><b>งานอดิเรกที่ชอบ : </b>{{ hobby }}</p>
+            <p><b>สิ่งที่ไม่ชอบ : </b>{{ disklike }}</p>
+            <p><b>ทีมกีฬาที่ชอบ : </b>{{ favsportteam }}</p>
+            <p><b>จุดแข็ง : </b>{{ strength }}</p>
+            <p><b>จุดอ่อน : </b>{{ weakness }}</p>
+        </div>
+        <div v-else>
+          <input v-model="editedData.name" :style="{ fontSize: '32px', marginBottom: '5px', width: '120%' }" />
+          <p><b>จบจาก : </b><input v-model="editedData.description" :style="{ width: '120%' }" /></p>
+          <p><b>งานอดิเรกที่ชอบ : </b><input v-model="editedData.hobby" :style="{ width: '120%' }" /></p>
+          <p><b>สิ่งที่ไม่ชอบ : </b><input v-model="editedData.disklike" :style="{ width: '120%' }" /></p>
+          <p><b>ทีมกีฬาที่ชอบ : </b><input v-model="editedData.favsportteam" :style="{ width: '120%' }" /></p>
+          <p><b>จุดแข็ง : </b><input v-model="editedData.strength" :style="{ width: '120%' }" /></p>
+          <p><b>จุดอ่อน : </b><input v-model="editedData.weakness" :style="{ width: '120%' }" /></p>
+        </div>
       <ul v-if="links.length">
           <li v-for="(link, index) in links" :key="index">
             <a :href="link.url" :target="link.target" :title="link.title"><v-img :src="link.imageUrl" :width="30"  /></a>
           </li>
       </ul>
+      <button @click="toggleEditMode">
+      {{ isEditMode ? 'Save' : 'Edit' }}
+    </button>
     </div>
   </div>
  </div> 
@@ -54,6 +68,17 @@ export default {
           title: 'Visit my website',
         },
       ],
+        isEditMode: false,
+        editedData: {
+        name: '',
+        description: '',
+        hobby: '',
+        disklike: '',
+        favsportteam: '',
+        strength: '',
+        weakness: '',
+        links: [],
+        },
     };
   },
    mounted() {
@@ -64,6 +89,33 @@ export default {
         this.$refs.fullPageDiv.style.height = vh + 'px';
       }
     });
+  },
+  methods: {
+    toggleEditMode() {
+      if (this.isEditMode) {
+        // Save changes and exit edit mode
+        this.name = this.editedData.name;
+        this.description = this.editedData.description;
+        this.hobby = this.editedData.hobby;
+        this.disklike = this.editedData.disklike;
+        this.favsportteam = this.editedData.favsportteam;
+        this.strength = this.editedData.strength;
+        this.weakness = this.editedData.weakness;
+        // ... (save other properties)
+      } else {
+        // Enter edit mode
+        this.editedData.name = this.name;
+        this.editedData.description = this.description;
+        this.editedData.hobby = this.hobby;
+        this.editedData.disklike = this.disklike;
+        this.editedData.favsportteam = this.favsportteam;
+        this.editedData.strength = this.strength;
+        this.editedData.weakness = this.weakness;
+        // ... (save other properties)
+      }
+
+      this.isEditMode = !this.isEditMode;
+    },
   },
 }
 </script>
