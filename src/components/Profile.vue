@@ -1,3 +1,4 @@
+
 <template >
   <div ref="fullPageDiv" :style="{ backgroundColor: '#2b2b29' }">
     <v-col class="mb-5" cols="12">
@@ -45,6 +46,7 @@
 </template>
 
 <script>
+
 import IG_icon from '@/assets/Instagram_icon.png';
 import fb_icon from '@/assets/facebook.png';
 export default {
@@ -125,7 +127,7 @@ export default {
 </script>
 
 <style scoped>
-
+@import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300&display=swap');
 
 
 .self-presentation {
@@ -185,6 +187,9 @@ export default {
   color: #005c9e;
 }
 
+.mb-5 {
+  font-family: 'Prompt', sans-serif;
+}
 
 </style>
 
