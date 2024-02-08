@@ -1,6 +1,6 @@
-<template>
-  <div>
-    <div class="self-presentation" style="background-color: #edede8">
+<template >
+  <div ref="fullPageDiv" :style="{ backgroundColor: '#2b2b29' }">
+    <div class="self-presentation" style="background-color: #c4c4c2">
     <div class="image-container">    
     <v-card  >
         <v-img src="../assets/profile.png" />        
@@ -8,22 +8,20 @@
     </div>
     <div class="text-container" >
       <h1 >{{ name }}</h1>
-      <p >จบจาก : {{ description }}</p>
-      <p>งานอดิเรกที่ชอบ : {{ hobby }}</p>
-      <p>สิ่งที่ไม่ชอบ : {{ disklike }}</p>
-      <p>ทีมกีฬาที่ชอบ : {{ favsportteam }}</p>
-      <p>จุดแข็ง : {{ strength }}</p>
-      <p>จุดอ่อน : {{ weakness }}</p>
+      <p ><b>จบจาก : </b>{{ description }}</p>
+      <p><b>งานอดิเรกที่ชอบ : </b>{{ hobby }}</p>
+      <p><b>สิ่งที่ไม่ชอบ : </b>{{ disklike }}</p>
+      <p><b>ทีมกีฬาที่ชอบ : </b>{{ favsportteam }}</p>
+      <p><b>จุดแข็ง : </b>{{ strength }}</p>
+      <p><b>จุดอ่อน : </b>{{ weakness }}</p>
       <ul v-if="links.length">
         <li v-for="(link, index) in links" :key="index">
-          <a :href="link.url" :target="link.target" :title="link.title">{{ link.text }}</a>
+          <a :href="link.url" :target="link.target" :title="link.title"><b>{{ link.text }}</b></a>
         </li>
       </ul>
     </div>
   </div>
-  </div>
-  
-  
+ </div> 
 </template>
 
 <script>
@@ -50,23 +48,33 @@ export default {
       ],
     };
   },
-    components:{
-        
-    }
+   mounted() {
+    // Ensure consistent height across browsers (optional)
+    this.$nextTick(() => {
+      const vh = window.innerHeight;
+      if (this.$refs.fullPageDiv.clientHeight < vh) {
+        this.$refs.fullPageDiv.style.height = vh + 'px';
+      }
+    });
+  },
 }
 </script>
 
 <style scoped>
+
+
+
 .self-presentation {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  max-width: 500px; /* Adjust as needed */
+  max-width: 600px; /* Adjust as needed */
   margin: 0 auto;
   padding: 20px;
   border-radius: 5px;
   box-shadow: 0 0 5px rgba(26, 24, 24, 0.2);
+  min-height: 100vh;
 }
 
 .image-container {
@@ -90,7 +98,7 @@ export default {
 }
 
 .text-container p {
-  font-size: 18px;
+  font-size: 19px;
   margin-bottom: 10px;
 }
 
@@ -112,5 +120,7 @@ export default {
 .text-container ul li a:hover {
   color: #005c9e;
 }
+
+
 </style>
 
