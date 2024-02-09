@@ -14,6 +14,7 @@
       :src="imgset"
     />
     <v-btn color="success" @click="show = !show">switch</v-btn>
+    <v-btn color="primary" @click="alertMessage()">alert</v-btn>
     <h1>Loop zone</h1>
     <v-row>
         <v-col cols="3" v-for="(item,index) in items" :key="index">
@@ -26,6 +27,9 @@
                 <v-card-title primary-title>
                     {{item.meassage}}
                 </v-card-title>
+                <v-card-action>
+                    <v-btn color="primary" @click="alertMParams(item.meassage)">alert</v-btn>
+                </v-card-action>
             </v-card>
         </v-col>
     </v-row>
@@ -56,6 +60,14 @@ export default {
                     img: 'https://cdn.pixabay.com/photo/2024/01/27/18/24/squirrel-8536537_1280.jpg'
                 },
             ]
+        }
+    },
+    methods: {
+        alertMessage(){
+            alert('Heeelllllloooooooo')
+        },
+        alertMParams(itemz){
+            alert('Heeelllllloooooooo'+itemz)
         }
     }
 }
