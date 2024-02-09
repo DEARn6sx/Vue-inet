@@ -32,6 +32,16 @@
                 </v-card-action>
             </v-card>
         </v-col>
+        <v-col cols="12">
+            <v-text-field
+                name="name"
+                label="label"
+                id="id"
+                v-model="name"
+            >
+            </v-text-field>
+                <v-btn color="primary" @click="alertMParams(name)">alert</v-btn>
+        </v-col>
     </v-row>
     
 
