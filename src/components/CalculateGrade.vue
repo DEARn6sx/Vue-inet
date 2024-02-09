@@ -40,7 +40,10 @@ export default {
   methods: {
     calculateGrade() {
       // Calculate total score, percentage, and letter gr
-
+      if (this.score < 0 || this.score > 100) {
+        alert('Please input a score between 0 and 100.');
+        return; // Exit the function if the score is not within the valid range
+      }
       if (this.score >= 80 && this.score <=  100) {
         this.Grade = 'A';
       } else if (this.score >= 70 && this.score <=  79) {
