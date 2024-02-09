@@ -6,19 +6,26 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/home',
-    name: 'home',
-    component: HomeView
-  },
-  {
-    path: '/',
-    name: 'login',
-    component: () => import('../views/LoginView.vue')
-  },
-  {
     path: '/profile',
     name: 'profile',
     component: () => import('../views/ProfileView.vue')
+  }, 
+  {
+    path: '/',
+    name: 'Toolbar',
+    component: () => import('../views/ToolbarView.vue'),
+    children: [  
+        {
+          path: '/',
+          name: 'login',
+          component: () => import('../views/LoginView.vue')
+        },
+        {
+          path: '/home',
+          name: 'home',
+          component: HomeView
+        },
+    ]
   },
   {
     path: '/about',
