@@ -82,14 +82,14 @@ export default {
         }
     },
     mounted() {
-        EventBus.$on('Hahahahaahahahahah', this.alertMParams)
+        EventBus.$on('callEvent', this.alertMParams)
     },
     methods: {
         alertMessage(){
-            alert('Heeelllllloooooooo')
+            alert('Alert Meassage Method Main')
         },
         alertMParams(itemz){
-            alert('Heeelllllloooooooo'+itemz)
+            alert('Iput is : '+itemz)
         }
     }
 }

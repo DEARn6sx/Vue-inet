@@ -49,7 +49,7 @@ export default {
               this.$emit('alertMessage2')
           },
           callEventParams(){
-              EventBus.$emit('Hahahahaahahahahah', this.childname)
+              EventBus.$emit('callEvent', this.childname)
           }
       },
   name: 'App',
