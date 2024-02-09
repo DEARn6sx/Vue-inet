@@ -25,6 +25,11 @@ const routes = [
           name: 'home',
           component: HomeView
         },
+        {
+          path: '/simple',
+          name: 'simple',
+          component: () => import('../views/SimpleView.vue')
+        },
     ]
   },
   {
