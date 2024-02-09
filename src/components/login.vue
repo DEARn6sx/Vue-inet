@@ -26,22 +26,37 @@
         <v-btn color="info">Login</v-btn>
       </v-card-actions>
     </v-card>
+    <v-card>
+      
+    <v-text-field
+            name="childname"
+            label="childname"
+            id="childname"
+            v-model="childname"
+    ></v-text-field>
      <v-btn color="primary" @click="callMain()">callMain</v-btn>
+     <v-btn color="primary" @click="callEventParams()">callEventParams</v-btn>
+    </v-card>
   </v-app>
 </template>
 
 <script>
+import { EventBus } from "@/EventBus"
 export default {
   props: ['name'],
   methods: {
           callMain(){
               this.$emit('alertMessage2')
+          },
+          callEventParams(){
+              EventBus.$emit('Hahahahaahahahahah', this.childname)
           }
       },
   name: 'App',
   data () {
     return {
-      showPassword: false
+      showPassword: false,
+      childname:''
     }
   },
 }

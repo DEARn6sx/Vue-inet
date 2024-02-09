@@ -45,6 +45,7 @@
         <v-col clos="12">
             <loginPage :name="name"  @alertMessage2="alertMessage" />
         </v-col>
+
     </v-row>
     
 
@@ -53,6 +54,7 @@
 
 <script>
 import loginPage from "../components/login.vue";
+import { EventBus } from "@/EventBus"
 export default {
     components:{
         loginPage
@@ -78,6 +80,9 @@ export default {
                 },
             ]
         }
+    },
+    mounted() {
+        EventBus.$on('Hahahahaahahahahah', this.alertMParams)
     },
     methods: {
         alertMessage(){
