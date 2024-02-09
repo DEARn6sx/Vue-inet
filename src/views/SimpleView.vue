@@ -42,6 +42,9 @@
             </v-text-field>
                 <v-btn color="primary" @click="alertMParams(name)">alert</v-btn>
         </v-col>
+        <v-col clos="12">
+            <loginPage :name="name" />
+        </v-col>
     </v-row>
     
 
@@ -49,7 +52,11 @@
 </template>
 
 <script>
+import loginPage from "../components/login.vue";
 export default {
+    components:{
+        loginPage
+    },
     data() {
         return{
             name: "DEAR",
