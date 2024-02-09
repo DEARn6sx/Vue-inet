@@ -1,7 +1,7 @@
 
 <template >
-  <div ref="fullPageDiv" :style="{ backgroundColor: '#2b2b29' }">
-    <v-col class="mb-5" cols="12">
+  <div ref="fullPageDiv"  :style="{ backgroundColor: '#2b2b29' }">
+    <v-col class="base-container" cols="12">
   
     <div class="self-presentation" style="background-color: #c4c4c2">
     <div class="image-container">    
@@ -187,9 +187,11 @@ export default {
   color: #005c9e;
 }
 
-.mb-5 {
+.base-container {
   font-family: 'Prompt', sans-serif;
 }
+
+
 
 </style>
 

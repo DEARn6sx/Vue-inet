@@ -1,15 +1,15 @@
 <template>
   <div>
-    <imgset />
+    <loginpage />
   </div>
 
 </template>
 
 <script>
-import   imgset  from '../components/login.vue';
+import   loginpage  from '../components/login.vue';
 export default {
     components:{
-        imgset
+        loginpage
     }
 }
 </script>
