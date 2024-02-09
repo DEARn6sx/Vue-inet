@@ -10,7 +10,7 @@
             <!-- Input field for the score -->
             <div class="text-center">
               <label for="score">Input Score</label>
-              <v-text-field v-model="score" id="score" label="Score"></v-text-field>
+              <v-text-field v-model="score" label="Score"></v-text-field>
             </div>
 
             <!-- Button to calculate grade -->
@@ -19,7 +19,7 @@
             <!-- Display calculated results -->
             <div v-if="showResults" class="text-center mt-4">
               <h2 class="text-h6">Results:</h2>
-              <h1>Grade is : {{ letterGrade }}</h1>
+              <h1>Grade is : {{ Grade }}</h1>
             </div>
           </v-card-text>
         </v-card>
@@ -33,7 +33,7 @@ export default {
   data() {
     return {
       score: 0,
-      letterGrade: '',
+      Grade: '',
       showResults: false,
     };
   },
@@ -42,17 +42,17 @@ export default {
       // Calculate total score, percentage, and letter gr
 
       if (this.score >= 80 && this.score <=  100) {
-        this.letterGrade = 'A';
+        this.Grade = 'A';
       } else if (this.score >= 70 && this.score <=  79) {
-        this.letterGrade = 'B';
+        this.Grade = 'B';
       } else if (this.score >= 60 && this.score <=  69) {
-        this.letterGrade = 'C';
+        this.Grade = 'C';
       } else if (this.score >= 50 && this.score <=  59) {
-        this.letterGrade = 'D';
+        this.Grade = 'D';
       } else if (this.score >= 0 && this.score <=  49) {
-        this.letterGrade = 'F';
+        this.Grade = 'F';
       } else {
-        this.letterGrade = 'บ่';
+        this.Grade = 'บ่';
       }
       // Set showResults to true to display the calculated results
       this.showResults = true;
@@ -71,7 +71,7 @@ export default {
 }
 
 .background {
-  background-color: #7a7878; /* Set your desired shade of grey */
+  background-color: #5f5c5c; /* Set your desired shade of grey */
 }
 
 .text-h6 {
