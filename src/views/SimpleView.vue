@@ -43,7 +43,7 @@
                 <v-btn color="primary" @click="alertMParams(name)">alert</v-btn>
         </v-col>
         <v-col clos="12">
-            <loginPage :name="name" />
+            <loginPage :name="name"  @alertMessage2="alertMessage" />
         </v-col>
     </v-row>
     

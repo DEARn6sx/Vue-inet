@@ -26,18 +26,24 @@
         <v-btn color="info">Login</v-btn>
       </v-card-actions>
     </v-card>
+     <v-btn color="primary" @click="callMain()">callMain</v-btn>
   </v-app>
 </template>
 
 <script>
 export default {
   props: ['name'],
+  methods: {
+          callMain(){
+              this.$emit('alertMessage2')
+          }
+      },
   name: 'App',
   data () {
     return {
       showPassword: false
     }
-  }
+  },
 }
 </script>
 
