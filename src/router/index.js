@@ -11,6 +11,11 @@ const routes = [
     component: () => import('../views/ProfileView.vue')
   }, 
   {
+    path: '/calgrade',
+    name: 'calgrade',
+    component: () => import('../views/CalculateGradeView.vue')
+  }, 
+  {
     path: '/',
     name: 'Toolbar',
     component: () => import('../views/ToolbarView.vue'),
