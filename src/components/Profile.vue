@@ -35,9 +35,9 @@
             <a :href="link.url" :target="link.target" :title="link.title"><v-img :src="link.imageUrl" :width="30"  /></a>
           </li>
       </ul>
-      <button @click="toggleEditMode">
+      <v-btn @click="toggleEditMode">
       {{ isEditMode ? 'Save' : 'Edit' }}
-    </button>
+    </v-btn>
     </div>
   </div>
 
@@ -62,13 +62,13 @@ export default {
       profileImageUrl: require('@/assets/profile.png'),
       links: [
         {
-          imageUrl: fb_icon, // Change this line to use the image URL from your folder
+          imageUrl: fb_icon, 
           url: 'https://www.facebook.com/dear207rw',
           target: '_blank',
           title: 'Visit my website',
         },
         {
-          imageUrl: IG_icon, // Change this line to use the image URL from your folder
+          imageUrl: IG_icon, 
           url: 'https://www.instagram.com/dears.n?fbclid=IwAR1D1L_x2jt1L09S-RN1bouaYF4IN5jKDw7gnBC9OlbAnsw0b_nVdxwi8o8',
           target: '_blank',
           title: 'Visit my website',
@@ -135,7 +135,7 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  max-width: 600px; /* Adjust as needed */
+  max-width: 625px; /* Adjust as needed */
   margin: 0 auto;
   padding: 20px;
   border-radius: 5px;
