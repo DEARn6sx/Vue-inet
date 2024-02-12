@@ -12,6 +12,7 @@
           <v-card-text>{{ item.amount }} ชิ้น</v-card-text>
           <v-card-actions>
             <v-btn color="success" @click="editItem(item)">Edit</v-btn>
+            <v-btn color="error" @click="deleteItem(item)">Delete</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -26,6 +27,7 @@
             </v-card-title >
                 <v-card-text>
                     <v-row>
+                       
                         <v-col clos="6">
                             <v-text-field 
                             name="product_name"
@@ -52,6 +54,15 @@
                             v-model="postdata.amount"
                             >      
                             </v-text-field>
+                        </v-col>
+                         <v-col cols="3">
+                            <v-file-input
+                                v-model="postdata.imageFile"
+                                label="Image"
+                                accept="image/*"
+                                @change="handleImageChange"
+                                :multiple="false"
+                            ></v-file-input>
                         </v-col>
                     </v-row>
                 </v-card-text>
@@ -96,6 +107,15 @@ export default {
     this.getData();
   },
   methods: {
+     handleImageChange() {
+        this.postdata.imageFile = event.target.files[0];
+        // If you need to preview the image, you can convert it to a Data URL
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            this.postdata.imagePreview = e.target.result;
+        };
+        reader.readAsDataURL(this.postdata.imageFile);
+    },
     newItem(){
         this.id = ''
         this.postdata = {...this.postdeFault}
@@ -106,6 +126,10 @@ export default {
         this.postdata = item
         this.dialogEdit = true
     },
+    deleteItem(item){
+        this.id = item._id
+        this.deleteData(this.id)
+    },
     closeItem(){
         this.id = ''
         this.postdata = {...this.postdeFault}
@@ -113,7 +137,7 @@ export default {
     },
     saveSelect(){
         if (this.id != '')  {
-            alert('แก้ไข')
+            this.editPutData()
         }
         else { this.savePostData() }
     },
@@ -126,13 +150,42 @@ export default {
     },
     async savePostData (){
         try {
-            const {data} = await this.axios.post('http://localhost:3000/products/', this.postdata)
-            alert(data.meassage)
-            this.getData()
-            this.closeItem()
+            const formData = new FormData();
+            formData.append('product_name', this.postdata.product_name);
+            formData.append('price', this.postdata.price);
+            formData.append('amount', this.postdata.amount);
+            formData.append('img', this.postdata.imageFile); // Use 'img' as the field name matching your backend
+
+            const { data } = await this.axios.post('http://localhost:3000/products/', formData);
+            alert(data.message);
+            this.getData();
+            this.closeItem();
         } catch (error) {
-            console.log('Error !!!');
+            console.error('Error uploading image:', error);
         }
+    },
+    async editPutData (){
+        try {
+           
+            const { data } = await this.axios.put(`http://localhost:3000/products/`+ this.id, this.postdata);
+            alert(data.message);
+            this.getData();
+            this.closeItem();
+        } catch (error) {
+            console.error('Edit Error:', error);
+        }
+    },
+    async deleteData (){
+        if (confirm("จะลบจริงหรอออ?")){
+        try {
+           
+            const { data } = await this.axios.delete(`http://localhost:3000/products/`+ this.id, this.postdata);
+            alert(data.message);
+            this.getData();
+            this.closeItem();
+        } catch (error) {
+            console.error('Error Delete Items:', error);
+        } }else console.log('cancel');
     },
     getImageUrl(img) {
       // Construct the URL for the image from the backend
