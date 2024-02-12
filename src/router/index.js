@@ -20,6 +20,12 @@ const routes = [
     name: 'apicon',
     component: () => import('../views/ApiConnect.vue')
   }, 
+   
+  {
+    path: '/workshop',
+    name: 'workshop',
+    component: () => import('../components/WSregister.vue')
+  }, 
   {
     path: '/',
     name: 'Toolbar',
