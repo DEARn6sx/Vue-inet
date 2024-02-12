@@ -16,6 +16,11 @@ const routes = [
     component: () => import('../views/CalculateGradeView.vue')
   }, 
   {
+    path: '/apicon',
+    name: 'apicon',
+    component: () => import('../views/ApiConnect.vue')
+  }, 
+  {
     path: '/',
     name: 'Toolbar',
     component: () => import('../views/ToolbarView.vue'),
