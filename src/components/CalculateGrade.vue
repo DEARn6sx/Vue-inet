@@ -1,5 +1,6 @@
 <template>
-  <v-container class="calculator-container background">
+  <div class="background">
+  <v-container class="calculator-container " >
     <v-row justify="center">
       <v-col cols="12" sm="8" md="6" lg="4">
         <v-card>
@@ -26,38 +27,40 @@
       </v-col>
     </v-row>
   </v-container>
+  </div>
 </template>
 
 <script>
 export default {
   data() {
     return {
-      score: 0,
+      score: null,
       Grade: '',
       showResults: false,
     };
   },
   methods: {
     calculateGrade() {
-      // Calculate total score, percentage, and letter gr
-      if (this.score < 0 || this.score > 100) {
-        alert('Please input a score between 0 and 100.');
-        return; // Exit the function if the score is not within the valid range
+      // Validate input
+      if (this.score === null || this.score === '' || isNaN(this.score) || this.score < 0 || this.score > 100) {
+        alert('Please input a valid score between 0 and 100.');
+        return;
       }
-      if (this.score >= 80 && this.score <=  100) {
+
+      // Calculate grade
+      if (this.score >= 80) {
         this.Grade = 'A';
-      } else if (this.score >= 70 && this.score <=  79) {
+      } else if (this.score >= 70) {
         this.Grade = 'B';
-      } else if (this.score >= 60 && this.score <=  69) {
+      } else if (this.score >= 60) {
         this.Grade = 'C';
-      } else if (this.score >= 50 && this.score <=  59) {
+      } else if (this.score >= 50) {
         this.Grade = 'D';
-      } else if (this.score >= 0 && this.score <=  49) {
-        this.Grade = 'F';
       } else {
-        this.Grade = 'บ่';
+        this.Grade = 'F';
       }
-      // Set showResults to true to display the calculated results
+
+      // Display results
       this.showResults = true;
     },
   },
@@ -68,12 +71,13 @@ export default {
 <style scoped>
 .calculator-container {
   height: 100vh; /* Full viewport height */
-  display: flex;
+  display: flex; 
   justify-content: center;
   align-items: center;
 }
 
 .background {
+
   background-color: #5f5c5c; /* Set your desired shade of grey */
 }
 
