@@ -18,13 +18,18 @@ const routes = [
   {
     path: '/product',
     name: 'product',
-    component: () => import('../views/ApiConnect.vue')
+    component: () => import('../components/wsProduct.vue')
   }, 
    
   {
     path: '/user',
     name: 'user',
     component: () => import('../components/wsUser.vue')
+  }, 
+  {
+    path: '/order',
+    name: 'order',
+    component: () => import('../components/wsOrder.vue')
   }, 
   {
     path: '/',
