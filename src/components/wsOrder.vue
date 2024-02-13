@@ -1,19 +1,32 @@
 <template>
   <div>
-    <v-row>
-        <v-col clos="6">
-            <v-btn color="success" @click="newItem">New item</v-btn>
-        </v-col>
+    <v-col cols="6" >
+        <v-text-field v-model="searchOrderID" label="Search Order ID" @input="searchOrders"></v-text-field>
+      </v-col>
+    <v-row v-if="!searchData || searchOrderID === ''">
       <v-col v-for="(item, index) in apidata" :key="index" cols="3" style="height: 100%;">
         <v-card style="height: 100%;">
-          <img :src="getImageUrl(item.img)" style="max-width: 100%; max-height: 100%; width: auto; height: auto;" />
           <v-card-title>{{ item.product_name }}</v-card-title>
-          <v-card-subtitle>{{ item.price }} บาท</v-card-subtitle>
-          <v-card-text>สินค้าที่เหลือ {{ item.amount-item.order }} ชิ้น</v-card-text>
+          <v-card-subtitle>{{ item._id }} </v-card-subtitle>
+          <v-card-text> จำนวณ {{ item.amount }} ชิ้น</v-card-text>
+          <v-card-text> ราคารวม {{ item.totalprice }} บาท</v-card-text>
           <v-card-actions>
             <v-btn color="success" @click="editItem(item)">Edit</v-btn>
             <v-btn color="error" @click="deleteItem(item)">Delete</v-btn>
-            <v-btn color="primary" @click="placeOrder(item)">Order</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
+    <v-row v-else>
+      <v-col v-for="(item, index) in filteredOrders" :key="index" cols="3" style="height: 100%;">
+        <v-card style="height: 100%;">
+          <v-card-title>{{ item.product_name }}</v-card-title>
+          <v-card-subtitle>{{ item._id }} </v-card-subtitle>
+          <v-card-text> จำนวณ {{ item.amount }} ชิ้น</v-card-text>
+          <v-card-text> ราคารวม {{ item.totalprice }} บาท</v-card-text>
+          <v-card-actions>
+            <v-btn color="success" @click="editItem(item)">Edit</v-btn>
+            <v-btn color="error" @click="deleteItem(item)">Delete</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -29,23 +42,15 @@
                 <v-card-text>
                     <v-row>
                        
-                        <v-col clos="6">
-                            <v-text-field 
-                            name="product_name"
-                            label="product_name"
-                            id="product_name"
-                            v-model="postdata.product_name"
-                            >      
-                            </v-text-field>
+                        <v-col cols="6">
+                        <div>
+                            <strong>Name:</strong> {{ postdata.product_name }}
+                        </div>
                         </v-col>
-                        <v-col clos="6">
-                            <v-text-field 
-                            name="price"
-                            label="price"
-                            id="price"
-                            v-model="postdata.price"
-                            >      
-                            </v-text-field>
+                        <v-col cols="6">
+                        <div>
+                            <strong>Amount:</strong> {{ postdata.amount }}
+                        </div>
                         </v-col>
                         <v-col clos="6">
                             <v-text-field 
@@ -56,15 +61,6 @@
                             >      
                             </v-text-field>
                         </v-col>
-                        <v-col cols="3" v-if="savemode === 'New item'">
-                          <v-file-input
-                              v-model="postdata.imageFile"
-                              label="Image"
-                              accept="image/*"
-                              @change="handleImageChange"
-                              :multiple="false"
-                          ></v-file-input>
-                        </v-col>
                     </v-row>
                 </v-card-text>
             <v-card-actions>
@@ -74,57 +70,7 @@
             </v-card-actions>
         </v-card>
     </v-dialog>
-    <v-dialog 
-    v-model="dialogOrder" 
-    max-width="500px">
-
-        <v-card>
-            <v-card-title primary-title>
-                Order
-            </v-card-title >
-                <v-card-text>
-                    <v-row>
-                        <v-col cols="6">
-                        <div>
-                            <strong>Name:</strong> {{ postdata.product_name }}
-                        </div>
-                        </v-col>
-                        <v-col cols="6">
-                        <div>
-                            <strong>Price:</strong> {{ postdata.price }}
-                        </div>
-                        </v-col>
-                        <v-col cols="6">
-                        <div>
-                            <strong>Remaining amount:</strong> {{ calculatedRAmount }}
-                        </div>
-                        </v-col>
-                        <v-col cols="6" v-if="!orderSaved">
-                        <v-text-field
-                            name="order"
-                            label="order"
-                            id="order"
-                            v-model="postdata.order"
-                        ></v-text-field>
-                        </v-col>
-                        <v-col cols="3" v-if="savemode === 'New item'">
-                          <v-file-input
-                              v-model="postdata.imageFile"
-                              label="Image"
-                              accept="image/*"
-                              @change="handleImageChange"
-                              :multiple="false"
-                          ></v-file-input>
-                        </v-col>
-                    </v-row>
-                </v-card-text>
-            <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn text color="error" @click="closeOrder()">cancel</v-btn>
-                <v-btn text color="info" @click="saveOrder()">save</v-btn>
-            </v-card-actions>
-        </v-card>
-    </v-dialog>
+    
   </div>
   
 </template>
@@ -138,29 +84,30 @@ export default {
       id:'',
       dialogEdit: false,
       dialogOrder: false,
+      searchData: false,
       postdata: {
-        product_name: '',
-        price:null ,
+        product_id: '',
+        product_name:'null' ,
         amount: null,
-        order: 0,
+        totalprice: null,
       },
       postdeFault: {
-        product_name: '',
-        price:null ,
-        amount: null,   
-        order: 0
+        product_id: '',
+        product_name:'null' ,
+        amount: null,
+        totalprice: null,
       },
     };
   },
   computed:{
     savemode(){
-       return this.id == '' ? 'New item' : 'Edit item'
+       return this.id == '' ? 'New order' : 'Edit order'
     },
-    calculatedRAmount() {
-      if (this.postdata.amount !== null && this.postdata.order !== null) {
-        return this.postdata.amount - this.postdata.order;
-      }
-      return null;
+    
+     filteredOrders() {
+    // Filter orders based on the entered order ID
+    const filtered = this.apidata.filter(order => order._id.includes(this.searchOrderID));
+    return filtered.length > 0 ? [filtered[0]] : [];
     },
     },
   created() {
@@ -168,14 +115,11 @@ export default {
   },
   
   methods: {
-     handleImageChange() {
-        this.postdata.imageFile = event.target.files[0];
-        // If you need to preview the image, you can convert it to a Data URL
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            this.postdata.imagePreview = e.target.result;
-        };
-        reader.readAsDataURL(this.postdata.imageFile);
+    searchOrders(item) {
+      this.id = ''
+      this.postdata = item
+      this.getData_id();
+      this.searchData = true
     },
     newItem(){
         this.id = ''
@@ -220,23 +164,20 @@ export default {
         else { this.savePostData() }
     },
     getData() {
-      this.axios.get('http://localhost:3000/products/').then((response) => {
+        this.axios.get('http://localhost:3000/orders/').then((response) => {
         console.log('ข้อมูลทั้งหมด', response);
         this.apidata = response.data.data;
         console.log('ข้อมูลทั้งหมด', response.data);
       });
     },
-    async savePostOrder (){
+    async getData_id(){
         try {
-          
-            const _data ={
-                'order': Number(this.postdata.order),
-            }
-            const { data } = await this.axios.post(`http://localhost:3000/products/orders/`+this.postdata._id, _data);
-            alert(data.message);
-            this.closeItem();
-        } catch (error) {
-            console.error('Error uploading image:', error);
+           
+            await this.axios.get(`http://localhost:3000/orders/`+ this.id);
+
+            this.getData();
+        } catch (error) {                         
+            console.error('Edit Error:', error);
         }
     },
     async savePostData (){
@@ -258,7 +199,7 @@ export default {
     async editPutData (){
         try {
            
-            const { data } = await this.axios.put(`http://localhost:3000/products/`+ this.id, this.postdata);
+            const { data } = await this.axios.put(`http://localhost:3000/orders/`+ this.id, this.postdata);
             alert(data.message);
             this.getData();
             this.closeItem();
@@ -270,7 +211,7 @@ export default {
         if (confirm("จะลบจริงหรอออ?")){
         try {
            
-            const { data } = await this.axios.delete(`http://localhost:3000/products/`+ this.id, this.postdata);
+            const { data } = await this.axios.delete(`http://localhost:3000/orders/`+ this.id, this.postdata);
             alert(data.message);
             this.getData();
             this.closeItem();
