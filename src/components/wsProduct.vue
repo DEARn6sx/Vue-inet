@@ -13,8 +13,8 @@
           <img :src="getImageUrl(item.img)" style="max-width: 100%; max-height: 100%; width: auto; height: auto;" />
           <v-card-title>{{ item.product_name }}</v-card-title>
           <v-card-text> {{ item._id }} </v-card-text>
-          <v-card-subtitle>{{ item.price }} บาท</v-card-subtitle>
-          <v-card-text>สินค้าที่เหลือ {{ item.amount-item.order }} ชิ้น</v-card-text>
+          <v-card-subtitle>Price : {{ item.price }} </v-card-subtitle>
+          <v-card-text>In Stock : {{ item.amount-item.order }} </v-card-text>
           <v-card-actions>
             <v-btn color="success" @click="editItem(item)">Edit</v-btn>
             <v-btn color="error" @click="deleteItem(item)">Delete</v-btn>
@@ -30,8 +30,8 @@
           <img :src="getImageUrl(item.img)" style="max-width: 100%; max-height: 100%; width: auto; height: auto;" />
           <v-card-title>{{ item.product_name }}</v-card-title>
           <v-card-text> {{ item._id }} </v-card-text>
-          <v-card-subtitle>{{ item.price }} บาท</v-card-subtitle>
-          <v-card-text>สินค้าที่เหลือ {{ item.amount-item.order }} ชิ้น</v-card-text>
+          <v-card-subtitle>{{ item.price }} </v-card-subtitle>
+          <v-card-text>In Stock {{ item.amount-item.order }} </v-card-text>
           <v-card-actions>
             <v-btn color="success" @click="editItem(item)">Edit</v-btn>
             <v-btn color="error" @click="deleteItem(item)">Delete</v-btn>

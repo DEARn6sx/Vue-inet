@@ -8,8 +8,8 @@
         <v-card style="height: 100%;">
           <v-card-title>{{ item.product_name }}</v-card-title>
           <v-card-subtitle>{{ item._id }} </v-card-subtitle>
-          <v-card-text> จำนวณ {{ item.amount }} ชิ้น</v-card-text>
-          <v-card-text> ราคารวม {{ item.totalprice }} บาท</v-card-text>
+          <v-card-text> Amount : {{ item.amount }} </v-card-text>
+          <v-card-text> Total Price : {{ item.totalprice }} </v-card-text>
           <v-card-actions>
             <v-btn color="success" @click="editItem(item)">Edit</v-btn>
             <v-btn color="error" @click="deleteItem(item)">Delete</v-btn>
@@ -22,8 +22,8 @@
         <v-card style="height: 100%;">
           <v-card-title>{{ item.product_name }}</v-card-title>
           <v-card-subtitle>{{ item._id }} </v-card-subtitle>
-          <v-card-text> จำนวณ {{ item.amount }} ชิ้น</v-card-text>
-          <v-card-text> ราคารวม {{ item.totalprice }} บาท</v-card-text>
+          <v-card-text> Amount {{ item.amount }} </v-card-text>
+          <v-card-text> TotalPrice {{ item.totalprice }} </v-card-text>
           <v-card-actions>
             <v-btn color="success" @click="editItem(item)">Edit</v-btn>
             <v-btn color="error" @click="deleteItem(item)">Delete</v-btn>
