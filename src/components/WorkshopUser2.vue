@@ -2,21 +2,22 @@
   <div>
     <v-row>
         <v-col clos="6">
-            <v-btn color="success" @click="newItem">New item</v-btn>
+            <v-btn color="primary" @click="newUser">New Users</v-btn>
         </v-col>
       <v-col v-for="(item, index) in apidata" :key="index" cols="3" style="height: 100%;">
         <v-card style="height: 100%;">
           <img :src="getImageUrl(item.img)" style="max-width: 100%; max-height: 100%; width: auto; height: auto;" />
-          <v-card-title>{{ item.product_name }}</v-card-title>
-          <v-card-subtitle>{{ item.price }} บาท</v-card-subtitle>
-          <v-card-text>{{ item.amount }} ชิ้น</v-card-text>
+          <v-card-title>{{ item.username }}</v-card-title>
+          <v-card-subtitle>{{ item.firstName }} {{ item.lastName }} </v-card-subtitle>
           <v-card-actions>
-            <v-btn color="success" @click="editItem(item)">Edit</v-btn>
+            <v-btn color="primary" @click="editItem(item)">Detail</v-btn>
+            <!-- <v-btn color="success" @click="editItem(item)">Edit</v-btn> -->
             <v-btn color="error" @click="deleteItem(item)">Delete</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
     </v-row>
+
     <v-dialog 
     v-model="dialogEdit" 
     max-width="500px">
@@ -28,34 +29,40 @@
                 <v-card-text>
                     <v-row>
                        
-                        <v-col clos="6">
+                        
                             <v-text-field 
-                            name="product_name"
-                            label="product_name"
-                            id="product_name"
-                            v-model="postdata.product_name"
+                            name="username"
+                            label="username"
+                            id="username"
+                            v-model="postdata.username"
                             >      
                             </v-text-field>
-                        </v-col>
-                        <v-col clos="6">
+                      
                             <v-text-field 
-                            name="price"
-                            label="price"
-                            id="price"
-                            v-model="postdata.price"
+                            name="password"
+                            label="password"
+                            id="password"
+                            v-model="postdata.password"
                             >      
                             </v-text-field>
-                        </v-col>
-                        <v-col clos="6">
+                        
                             <v-text-field 
-                            name="amount"
-                            label="amount"
-                            id="amount"
-                            v-model="postdata.amount"
+                            name="firstName"
+                            label="firstName"
+                            id="firstName"
+                            v-model="postdata.firstName"
                             >      
                             </v-text-field>
-                        </v-col>
-                        <v-col cols="3" v-if="savemode === 'New item'">
+                        
+                            <v-text-field 
+                            name="lastName"
+                            label="lastName"
+                            id="lastName"
+                            v-model="postdata.lastName"
+                            >      
+                            </v-text-field>
+                           <v-text-field v-model="postdata.age" label="Age" outlined type="number" required></v-text-field>              
+                        <v-col cols="3" v-if="savemode === 'New User'">
                           <v-file-input
                               v-model="postdata.imageFile"
                               label="Image"
@@ -64,6 +71,8 @@
                               :multiple="false"
                           ></v-file-input>
                         </v-col>
+                        <v-select v-model="postdata.gender" label="Gender" :items="postdata.genderOptions" outlined required></v-select>
+                      
                     </v-row>
                 </v-card-text>
             <v-card-actions>
@@ -87,20 +96,27 @@ export default {
       id:'',
       dialogEdit: false,
       postdata: {
-        product_name: '',
-        price:null ,
-        amount: null
+        username: '',
+        password: '',
+        firstName: '',
+        lastName: '',
+        age: null,
+        gender: '',
       },
       postdeFault: {
-        product_name: '',
-        price:null ,
-        amount: null,
+        username: '',
+        password: '',
+        firstName: '',
+        lastName: '',
+        age: null,
+        gender: '',
+        genderOptions: ['Male', 'Female', 'Other'],
       },
     };
   },
   computed:{
     savemode(){
-       return this.id == '' ? 'New item' : 'Edit item'
+       return this.id == '' ? 'New User' : 'Edit User'
     }
   },
   created() {
@@ -116,7 +132,7 @@ export default {
         };
         reader.readAsDataURL(this.postdata.imageFile);
     },
-    newItem(){
+    newUser(){
         this.id = ''
         this.postdata = {...this.postdeFault}
         this.dialogEdit = true
@@ -139,35 +155,45 @@ export default {
         if (this.id != '')  {
             this.editPutData()
         }
-        else { this.savePostData() }
+        else { this.registerUser() }
     },
     getData() {
-      this.axios.get('http://localhost:3000/products/').then((response) => {
+      this.axios.get('http://localhost:3000/users/').then((response) => {
         console.log('ข้อมูลทั้งหมด', response);
         this.apidata = response.data.data;
         console.log('ข้อมูลทั้งหมด', response.data);
       });
     },
-    async savePostData (){
-        try {
-            const formData = new FormData();
-            formData.append('product_name', this.postdata.product_name);
-            formData.append('price', this.postdata.price);
-            formData.append('amount', this.postdata.amount);
-            formData.append('img', this.postdata.imageFile); // Use 'img' as the field name matching your backend
+    async registerUser() {
 
-            const { data } = await this.axios.post('http://localhost:3000/products/', formData);
+       try {
+            const formData = new FormData();
+            formData.append('username', this.username);
+            formData.append('password', this.password);
+            formData.append('firstName', this.firstName);
+            formData.append('lastName', this.lastName);
+            formData.append('age', this.age);
+            formData.append('gender', this.gender);
+            formData.append('img', this.postdata.imageFile); 
+
+            const { data } = await this.axios.post('http://localhost:3000/register/', formData);
             alert(data.message);
             this.getData();
             this.closeItem();
         } catch (error) {
-            console.error('Error uploading image:', error);
+            console.error('Error Register:', error);
         }
     },
     async editPutData (){
         try {
-           
-            const { data } = await this.axios.put(`http://localhost:3000/products/`+ this.id, this.postdata);
+           const formData = new FormData();
+            formData.append('username', this.username);
+            formData.append('password', this.password);
+            formData.append('firstName', this.firstName);
+            formData.append('lastName', this.lastName);
+            formData.append('age', this.age);
+            formData.append('gender', this.gender);
+            const { data } = await this.axios.put(`http://localhost:3000/register/`+ this.id, formData);
             alert(data.message);
             this.getData();
             this.closeItem();
@@ -189,7 +215,7 @@ export default {
     },
     getImageUrl(img) {
       // Construct the URL for the image from the backend
-      return `http://localhost:3000/images/products/${img}`;
+      return `http://localhost:3000/images/profile/${img}`;
     },
   },
 };

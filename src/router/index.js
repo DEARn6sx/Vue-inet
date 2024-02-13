@@ -16,15 +16,15 @@ const routes = [
     component: () => import('../views/CalculateGradeView.vue')
   }, 
   {
-    path: '/apicon',
-    name: 'apicon',
+    path: '/product',
+    name: 'product',
     component: () => import('../views/ApiConnect.vue')
   }, 
    
   {
-    path: '/workshop',
-    name: 'workshop',
-    component: () => import('../components/WSregister.vue')
+    path: '/user',
+    name: 'user',
+    component: () => import('../components/wsUser.vue')
   }, 
   {
     path: '/',
